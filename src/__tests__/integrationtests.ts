@@ -66,15 +66,15 @@ test("Travels from 0 to 6th and picks up someone on floor 3th going to 5th", () 
     // Someone on the floor 0 clicks call panel "up"
     callPanels[0].clickUp();
 
+    // Someone on the floor 3 clicks call panel "up" (this gets queued)
+    callPanels[3].clickUp();
+
     elevator.testProgress();
 
     expect(elevator.getMessage()).toEqual("Standing at floor 0. Doors are open.");
 
     // Person at the 0th floor stood in while the doors were open and clicked floor 6
     elevator.clickFloor(6);
-
-    // Someone on the floor 3 clicks call panel "up"
-    callPanels[3].clickUp();
 
     elevator.testProgress();
     expect(elevator.getMessage()).toEqual("Going up, on floor 0. Doors are closed.");

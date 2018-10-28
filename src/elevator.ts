@@ -369,9 +369,16 @@ export class ElevatorController implements ElevatorListener {
 
     /**
      * Handle the event
+     *
+     * The function is idempotent
+     *
      * @param event
      */
     public handleEvent<T extends ElevatorEvent>(event: T) {
+        if (event.isHandled()) {
+            return;
+        }
+
         // JS can't do operator overloading based on the class, but it can do the same thing in guards
         if (
             event instanceof EventSomeoneOnFloorWantsUp ||
@@ -383,9 +390,6 @@ export class ElevatorController implements ElevatorListener {
                     event.handle();
                     break;
                 }
-            }
-
-            if (!event.handled) {
             }
         }
     }
@@ -402,6 +406,7 @@ export class ElevatorController implements ElevatorListener {
 
     public onChangeFloor(elevator: Elevator, newFloor: number): void {
         this.updateScreensByElevator(elevator);
+        this.delegateEvents();
     }
 
     public onChangeDoors(elevator: Elevator, floor: number, doorsAreOpen: boolean) {
@@ -424,6 +429,9 @@ export class ElevatorController implements ElevatorListener {
         }
     }
 
+    /**
+     * This should be idempotent event delegation
+     */
     private delegateEvents() {
         this.getUnhandledEvents().forEach(e => {
             this.handleEvent(e);
