@@ -1,7 +1,7 @@
 # Elevator problem
 
 Author: Jari Pennanen, 2018 \
-Repository: https://
+Repository: https://github.com/Ciantic/elevator-oo-ts
 
 This is my object oriented solution, the solution is partial. Single elevator functions somewhat correctly. However I'm pretty sure it looses some events occasionally.
 
